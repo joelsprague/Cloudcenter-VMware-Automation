@@ -1,3 +1,5 @@
+First, just want to make clear the following: This is NOT an official Cisco project, product or code.  This project is simply something I created for my own use that I thought others might find useful, and wanted to share in case that was true.  While I am a Cisco employee, this is in NO way official code, and there is no warranty or support from my employer.
+
 This project is very much of a work in progress, but is an attempt to automate some of the steps required to install Cloudcenter in VMware.  Due to fact I frequently have to re-deploy Cloudcenter (generally because I break something), I wanted to automate some of the steps involved to make the process easier.
 
 This powershell script should be put in the same directory as the six OVAs (obtainable from Cisco with proper entitlement).  This includes Cloudcenter Manager, Cloudcenter Orchestrator, Cloudcenter Log Collector, Cloudcenter AMQP and the Cloudcenter Postgre database server.  The script also looks for the Cisco created Centos 6 worker image.  
