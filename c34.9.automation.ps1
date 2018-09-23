@@ -75,30 +75,36 @@ nmcli con mod eth0 ipv4.addresses $IP
 nmcli con mod eth0 ipv4.gateway $GW
 nmcli con mod eth0 ipv4.method manual
 hostnamectl set-hostname $HOSTNAME
-echo $ROOTPASS | passwd --stdin root
 "@
 
 Write-Output $VMNetwork
 }
 
+$CHANGEROOT = @"
+echo $PASSWORD | passwd --stdin root
+"@
 
 $Script = Configure-VM -IP $CCMIP -GW $GATEWAY -HOSTNAME $CCMName -ROOTPASS $PASSWORD
 Invoke-VMscript -VM $CCMName -Scripttext $Script -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
+Invoke-VMscript -VM $CCMName -Scripttext $CHANGEROOT -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
 Restart-VM -VM $CCMName -RunAsync -Confirm:$false
 
 $Script = Configure-VM -IP $CCOIP -GW $GATEWAY -HOSTNAME $CCOName -ROOTPASS $PASSWORD
 Invoke-VMscript -VM $CCOName -Scripttext $Script -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
+Invoke-VMscript -VM $CCOName -Scripttext $CHANGEROOT -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
 Restart-VM -VM $CCOName -RunAsync -Confirm:$false
 
 $Script = Configure-VM -IP $LOGIP -GW $GATEWAY -HOSTNAME $LOGName -ROOTPASS $PASSWORD
 Invoke-VMscript -VM $LOGName -Scripttext $Script -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
+Invoke-VMscript -VM $LOGName -Scripttext $CHANGEROOT -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
 Restart-VM -VM $LOGName -RunAsync -Confirm:$false
 
 $Script = Configure-VM -IP $DBIP -GW $GATEWAY -HOSTNAME $DBName -ROOTPASS $PASSWORD
 Invoke-VMscript -VM $DBName -Scripttext $Script -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
+Invoke-VMscript -VM $DBName -Scripttext $CHANGEROOT -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
 Restart-VM -VM $DBName -RunAsync -Confirm:$false
 
 $Script = Configure-VM -IP $AMQPIP -GW $GATEWAY -HOSTNAME $AMQPName -ROOTPASS $PASSWORD
 Invoke-VMscript -VM $AMQPName -Scripttext $Script -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
+Invoke-VMscript -VM $AMQPName -Scripttext $CHANGEROOT -Guestuser root -Guestpassword welcome2cliqr -Scripttype Bash
 Restart-VM -VM $AMQPName -RunAsync -Confirm:$false
-
