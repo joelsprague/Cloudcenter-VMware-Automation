@@ -75,7 +75,7 @@ nmcli con mod eth0 ipv4.addresses $IP
 nmcli con mod eth0 ipv4.gateway $GW
 nmcli con mod eth0 ipv4.method manual
 hostnamectl set-hostname $HOSTNAME
-echo "$ROOTPASS" | passwd --stdin root
+echo $ROOTPASS | passwd --stdin root
 "@
 
 Write-Output $VMNetwork
